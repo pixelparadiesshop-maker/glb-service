@@ -67,7 +67,7 @@ def build_glb(im: Image.Image, tag: str, flip: bool):
     if abs(ratio-target)/target > 0.08:
         warning = f"Panel-Ratio {ratio:.3f} vs Soll {target:.3f} – Scan evtl. unvollstaendig"
 
-    AW, AH = 2048, 2048
+    AW, AH = 4096, 4096
     total = back.width + spine.width + front.width + 56
     scale = min(AW/total, AH/back.height, 1.0)
     rs = lambda i: i.resize((max(1,round(i.width*scale)), max(1,round(i.height*scale))), Image.LANCZOS)
@@ -101,7 +101,7 @@ def build_glb(im: Image.Image, tag: str, flip: bool):
     from trimesh.visual.material import PBRMaterial
     atlas.format = "JPEG"
     _save = atlas.save
-    atlas.save = lambda fp, **kw: _save(fp, format="JPEG", quality=92)
+    atlas.save = lambda fp, **kw: _save(fp, format="JPEG", quality=94)
     mesh = trimesh.Trimesh(np.array(verts), np.array(faces), process=False)
     mesh.visual = TextureVisuals(uv=np.array(uvs),
         material=PBRMaterial(baseColorTexture=atlas, metallicFactor=0.0,
